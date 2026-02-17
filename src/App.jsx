@@ -12,7 +12,7 @@ export default function App() {
     logoUrl: "https://i.ibb.co/example/logo.png", 
     supportUrl: "https://support.com",             
     siteName: "ZHENSHUB",
-    adminPassword: "ZH@#_&-()*'?;:~`÷$°£℅©2026" // PASSWORD ADMIN KAMU
+    adminPassword: "ZHADMIN?!?!?!?!?!?!?!?!2026" // PASSWORD ADMIN KAMU
   };
 
   const [script, setScript] = useState("");
@@ -67,7 +67,7 @@ export default function App() {
       setIsAdminLoggedIn(true);
       fetchAllScripts();
     } else {
-      alert("Wrong Password!");
+      alert("Wrong password, I suspect you are not admin.☠️");
     }
   }
 
@@ -91,7 +91,7 @@ export default function App() {
             <h1 className="text-2xl font-black text-white mb-6 italic tracking-tighter">ADMIN ACCESS</h1>
             <input 
               type="password"
-              placeholder="Enter Session Password..."
+              placeholder="Enter Password..."
               className="w-full bg-black/50 border border-white/10 rounded-xl p-4 text-center mb-6 focus:outline-none focus:border-white/30 transition-all"
               value={adminPassInput}
               onChange={(e) => setAdminPassInput(e.target.value)}
