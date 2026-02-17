@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 
-// Data dari screenshot kamu
+// Database Configuration
 const SUPABASE_URL = "https://vaclisxkdltzjzgfxhcm.supabase.co";
-const SUPABASE_KEY = "sb_publishable_ydSqM_lfbpr9ZmQtE608wQ_zvkf3XoM"; // Pastikan copy full key-nya ya
+const SUPABASE_KEY = "sb_publishable_ydSqM_lfbpr9ZmQtE608wQ_zvkf3XoM"; 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export default function App() {
@@ -22,75 +22,97 @@ export default function App() {
   }, []);
 
   async function fetchRawScript(scriptId) {
-    const { data, error } = await supabase.from("scripts").select("content").eq("id", scriptId).single();
+    const { data } = await supabase.from("scripts").select("content").eq("id", scriptId).single();
     if (data) {
       setRawMode(true);
       setRawContent(data.content);
-    } else {
-      document.body.innerText = "Script not found or 404";
     }
   }
 
   async function handleCreate() {
-    if (!script) return alert("Paste script dulu!");
+    if (!script) return alert("Paste script first!");
     setLoading(true);
     const randomId = Math.random().toString(36).substring(2, 10);
-    
     const { error } = await supabase.from("scripts").insert([{ id: randomId, content: script }]);
-    
-    if (!error) {
-      setId(randomId);
-    } else {
-      alert("Error: Pastikan tabel 'scripts' sudah dibuat di Supabase!");
-      console.error(error);
-    }
+    if (!error) setId(randomId);
+    else alert("Database Error!");
     setLoading(false);
   }
 
+  // --- TAMPILAN HALAMAN RAW (FAKE ACCESS DENIED) ---
   if (rawMode) {
     return (
-      <pre style={{ margin: 0, padding: '20px', whiteSpace: 'pre-wrap', wordBreak: 'break-all', background: '#000', color: '#fff' }}>
-        {rawContent}
-      </pre>
+      <div className="min-h-screen bg-[#050505] text-zinc-400 flex flex-col items-center justify-center p-6 font-sans overflow-hidden relative">
+        {/* Konten Asli (Tersembunyi tapi ada untuk loadstring) */}
+        <pre className="absolute opacity-0 pointer-events-none select-none overflow-hidden h-0 w-0">
+          {rawContent}
+        </pre>
+
+        {/* UI Palsu (Access Denied) */}
+        <div className="relative z-10 w-full max-w-md text-center">
+            <div className="bg-white/[0.03] border border-white/10 backdrop-blur-2xl rounded-[2rem] p-10 shadow-2xl relative overflow-hidden group">
+                {/* Efek Cling Animasi Background */}
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.02] to-transparent -translate-x-full group-hover:translate-x-full duration-1000 transition-transform"></div>
+                
+                <div className="mb-8 relative inline-block">
+                    <div className="w-20 h-20 border-2 border-red-500/20 rounded-2xl flex items-center justify-center bg-red-500/5 shadow-[0_0_30px_rgba(239,68,68,0.1)]">
+                        <svg className="w-10 h-10 text-red-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m0 0v2m0-2h2m-2 0h-2m7-7a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <h2 className="text-3xl font-black text-white mb-2 tracking-tighter uppercase italic">Access Denied</h2>
+                <div className="inline-block px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full mb-6">
+                    <span className="text-[10px] text-red-500 font-bold tracking-[0.2em] uppercase">Error 403 • Restricted</span>
+                </div>
+                
+                <p className="text-zinc-500 text-sm leading-relaxed mb-8">
+                    This resource is encrypted and requires proper authorization. Direct browser access is not permitted.
+                </p>
+
+                <button className="btn-cling w-full py-4 bg-white text-black font-black rounded-2xl tracking-[0.2em] text-xs transition-all active:scale-95 shadow-[0_10px_20px_rgba(255,255,255,0.05)]">
+                    GET SUPPORT
+                </button>
+            </div>
+            
+            <p className="mt-10 text-[9px] text-zinc-700 tracking-[0.5em] font-bold uppercase italic">hidden by ZHHUB</p>
+        </div>
+      </div>
     );
   }
 
+  // --- TAMPILAN HALAMAN UTAMA (CREATE LINK) ---
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-zinc-400 flex flex-col items-center justify-center p-5 font-sans">
-      {/* Glow Background Effect */}
-      <div className="fixed top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-white/5 blur-[120px] rounded-full"></div>
-      </div>
+    <div className="min-h-screen bg-[#050505] text-zinc-400 flex flex-col items-center justify-center p-6 font-sans">
+      <h1 className="text-6xl font-black italic text-white mb-2 tracking-tighter">ZHENSHUB</h1>
+      <p className="text-[10px] tracking-[0.5em] text-zinc-700 mb-12 font-bold uppercase">Advanced Script Vault</p>
 
-      <h1 className="text-5xl font-black tracking-tighter text-white mb-2 italic">ZHENSHUB</h1>
-      <p className="text-[10px] tracking-[0.3em] text-zinc-600 mb-10 uppercase font-bold">Simple • Secure • Permanent</p>
-
-      <div className="w-full max-w-xl bg-white/[0.03] border border-white/10 backdrop-blur-xl rounded-3xl p-8 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+      <div className="w-full max-w-2xl bg-white/[0.02] border border-white/10 backdrop-blur-3xl rounded-[2.5rem] p-8 md:p-12 shadow-[0_50px_100px_rgba(0,0,0,0.5)]">
         <textarea
           value={script}
           onChange={(e) => setScript(e.target.value)}
           placeholder="-- paste your script here..."
-          className="w-full h-72 bg-black/40 border border-white/5 rounded-2xl p-5 text-sm text-zinc-300 focus:outline-none focus:border-white/20 transition-all resize-none font-mono mb-6"
+          className="w-full h-80 bg-black/40 border border-white/5 rounded-3xl p-6 text-sm text-zinc-300 focus:outline-none focus:border-white/20 transition-all resize-none font-mono mb-8"
         />
 
         <button
           onClick={handleCreate}
           disabled={loading}
-          className="btn-cling w-full py-4 bg-white text-black font-black rounded-2xl uppercase tracking-[0.2em] hover:scale-[1.02] active:scale-95 transition-all shadow-[0_0_30px_rgba(255,255,255,0.1)] relative overflow-hidden"
+          className="btn-cling w-full py-5 bg-white text-black font-black rounded-2xl tracking-[0.3em] transition-all relative overflow-hidden active:scale-[0.98] shadow-[0_20px_40px_rgba(255,255,255,0.05)] text-sm"
         >
-          {loading ? "PROCESSING..." : "CREATE LINK"}
+          {loading ? "SAVING..." : "CREATE PERMANENT LINK"}
         </button>
 
         {id && (
-          <div className="mt-10 space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="p-5 bg-black/40 border border-white/5 rounded-2xl group hover:border-white/10 transition-all">
-              <p className="text-[9px] text-zinc-500 mb-2 font-bold tracking-widest">RAW URL</p>
-              <p className="text-sm text-white break-all font-mono">{window.location.origin}/raw/{id}</p>
+          <div className="mt-10 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="p-6 bg-white/[0.03] border border-white/5 rounded-2xl">
+              <p className="text-[9px] text-zinc-600 mb-2 font-bold tracking-widest uppercase">Raw Endpoint</p>
+              <p className="text-sm text-zinc-300 break-all font-mono">{window.location.origin}/raw/{id}</p>
             </div>
-            
-            <div className="p-5 bg-black/40 border border-white/5 rounded-2xl group hover:border-white/10 transition-all">
-              <p className="text-[9px] text-zinc-500 mb-2 font-bold tracking-widest">LOADSTRING</p>
-              <p className="text-[10px] text-zinc-400 break-all font-mono leading-relaxed">
+            <div className="p-6 bg-white/[0.03] border border-white/5 rounded-2xl">
+              <p className="text-[9px] text-zinc-600 mb-2 font-bold tracking-widest uppercase">Loadstring Executor</p>
+              <p className="text-[10px] text-zinc-500 break-all leading-relaxed font-mono italic">
                 loadstring(game:HttpGet("{window.location.origin}/raw/{id}"))()
               </p>
             </div>
@@ -98,8 +120,10 @@ export default function App() {
         )}
       </div>
 
-      <footer className="mt-12 text-[9px] text-zinc-700 tracking-[0.4em] font-bold">
-        ZHHUB.VERCEL.APP • 2026
+      <footer className="mt-16 text-[9px] text-zinc-800 tracking-[0.4em] font-bold flex flex-col items-center gap-2">
+        <span>ZHENSHUB SYSTEM V2.6</span>
+        <div className="h-[1px] w-12 bg-zinc-900"></div>
+        <span>PROTECTED BY ZHHUB CLOUD</span>
       </footer>
 
       <style>{`
@@ -108,13 +132,11 @@ export default function App() {
           position: absolute;
           top: -50%; left: -50%;
           width: 200%; height: 200%;
-          background: linear-gradient(45deg, transparent, rgba(255,255,255,0.6), transparent);
+          background: linear-gradient(45deg, transparent, rgba(255,255,255,0.5), transparent);
           transform: rotate(45deg);
-          transition: 0.6s;
+          transition: 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .btn-cling:hover::after {
-          left: 120%;
-        }
+        .btn-cling:hover::after { left: 120%; }
       `}</style>
     </div>
   );
