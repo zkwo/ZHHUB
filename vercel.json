@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/raw/:id", "destination": "/" },
+    { "source": "/raw/:id", "destination": "/api/raw?id=:id" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
