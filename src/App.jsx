@@ -39,6 +39,18 @@ export default function App() {
   async function fetchRawScript(scriptId) {
     const { data } = await supabase.from("scripts").select("content").eq("id", scriptId).single();
     if (data) {
+      // PERBAIKAN: Deteksi jika yang akses adalah Executor/Roblox
+      const ua = navigator.userAgent.toLowerCase();
+      const isExecutor = ua.includes("roblox") || ua.includes("script") || ua.includes("http") || ua.includes("electron");
+
+      if (isExecutor) {
+        // Tampilkan teks murni saja untuk executor
+        document.body.innerHTML = `<pre style="word-wrap: break-word; white-space: pre-wrap;">${data.content}</pre>`;
+        document.body.style.background = "black";
+        document.body.style.color = "white";
+        return;
+      }
+
       setRawContent(data.content);
       setView("raw");
     }
