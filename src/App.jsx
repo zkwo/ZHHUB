@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 
 // Data dari screenshot kamu
 const SUPABASE_URL = "https://vaclisxkdltzjzgfxhcm.supabase.co";
-const SUPABASE_KEY = "sb_publishable_ydSqM_Ifbpr9ZmQtE608w("; // Pastikan copy full key-nya ya
+const SUPABASE_KEY = "sb_publishable_ydSqM_lfbpr9ZmQtE608wQ_zvkf3XoM"; // Pastikan copy full key-nya ya
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export default function App() {
