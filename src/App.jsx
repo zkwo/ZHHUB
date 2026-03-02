@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 
 // Database Configuration
-const SUPABASE_URL = "https://vaclisxkdltzjzgfxhcm.supabase.co";
-const SUPABASE_KEY = "sb_publishable_ydSqM_lfbpr9ZmQtE608wQ_zvkf3XoM"; 
+const SUPABASE_URL = "https://bnvkvgdznvrvcqpnuzvg.supabase.co";
+const SUPABASE_KEY = "sb_publishable_uzHZR1s9T6f-i7yJKEmg0g_QD2MCg-E"; 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export default function App() {
