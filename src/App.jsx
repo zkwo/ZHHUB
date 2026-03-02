@@ -62,7 +62,7 @@ export default function App() {
     const randomId = Math.random().toString(36).substring(2, 10);
     const { error } = await supabase.from("scripts").insert([{ id: randomId, content: script }]);
     if (!error) setId(randomId);
-    else alert("Database Error!");
+    else alert("Database Error!\nContact Admin!");
     setLoading(false);
   }
 
