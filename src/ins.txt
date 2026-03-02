@@ -1,0 +1,11 @@
+-- [[ Step By Step ]]
+
+-- One
+CREATE TABLE scripts (
+  id TEXT PRIMARY KEY,
+  content TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Two
+ALTER TABLE scripts DISABLE ROW LEVEL SECURITY;
