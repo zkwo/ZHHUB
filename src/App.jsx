@@ -12,7 +12,7 @@ export default function App() {
     logoUrl: "https://i.ibb.co/example/logo.png", 
     supportUrl: "https://support.com",             
     siteName: "ZHENSHUB",
-    adminPassword: "ZHADMIN?!?!?!?!?!?!?!?!2026" // PASSWORD ADMIN KAMU
+    adminPassword: "Z" // PASSWORD ADMIN KAMU
   };
 
   const [script, setScript] = useState("");
